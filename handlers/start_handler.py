@@ -9,10 +9,11 @@ import configs
 import keyboards
 from states import States
 from main import bot
+from configs import CHAT_ID
 
 router = Router()
 timer_active = False
-remaining_time = 86400  # 3 минуты в секундах
+remaining_time = 86400*3  # 3 минуты в секундах
 
 
 @router.message(Command('start'))
@@ -405,21 +406,21 @@ async def back(callback: CallbackQuery, state: FSMContext):
             text += f"\nОпубликовал: @{username}"
             try:
                 mes_id = data['message_id']
-                await bot.edit_message_media(chat_id=-1002493912329, message_id=mes_id,
+                await bot.edit_message_media(chat_id=CHAT_ID, message_id=mes_id,
                                              media=InputMediaVideo(media=data['photo']))
-                mes = await bot.edit_message_caption(chat_id=-1002493912329, message_id=mes_id, caption=text)
+                mes = await bot.edit_message_caption(chat_id=CHAT_ID, message_id=mes_id, caption=text)
                 await state.update_data(message_id=mes.message_id)
             except Exception:
                 mes_id = data['message_id']
-                await bot.edit_message_media(chat_id=-1002493912329, message_id=mes_id,
+                await bot.edit_message_media(chat_id=CHAT_ID, message_id=mes_id,
                                              media=InputMediaPhoto(media=data['photo']))
-                mes = await bot.edit_message_caption(chat_id=-1002493912329, message_id=mes_id, caption=text)
+                mes = await bot.edit_message_caption(chat_id=CHAT_ID, message_id=mes_id, caption=text)
                 await state.update_data(message_id=mes.message_id)
 
         else:
             text += f"\nОпубликовал: @{username}"
             mes_id = data['message_id']
-            mes = await bot.edit_message_text(chat_id=-1002493912329, message_id=int(mes_id), text=text)
+            mes = await bot.edit_message_text(chat_id=CHAT_ID, message_id=int(mes_id), text=text)
             await state.update_data(message_id=mes.message_id)
         await bot.delete_message(chat_id=callback.from_user.id, message_id=callback.message.message_id)
         await callback.message.answer(f"Сообщение отправено в группу", reply_markup=keyboards.back_btn1)
@@ -458,15 +459,15 @@ async def back(callback: CallbackQuery, state: FSMContext):
             text += f"\nОпубликовал: @{username}"
 
             try:
-                mes = await bot.send_photo(chat_id=-1002493912329, photo=data['photo'], caption=text)
+                mes = await bot.send_photo(chat_id=CHAT_ID, photo=data['photo'], caption=text)
                 await state.update_data(message_id=mes.message_id)
             except Exception:
-                mes = await bot.send_video(chat_id=-1002493912329, video=data['photo'], caption=text)
+                mes = await bot.send_video(chat_id=CHAT_ID, video=data['photo'], caption=text)
                 await state.update_data(message_id=mes.message_id)
 
         else:
             text += f"\nОпубликовал: @{username}"
-            mes = await bot.send_message(-1002493912329, text=text)
+            mes = await bot.send_message(CHAT_ID, text=text)
             await state.update_data(message_id=mes.message_id)
             await bot.delete_message(chat_id=callback.from_user.id, message_id=callback.message.message_id)
             await callback.message.answer(f"Сообщение отправено в группу", reply_markup=keyboards.back_btn1)
@@ -479,7 +480,7 @@ async def back(callback: CallbackQuery, state: FSMContext):
             remaining_time -= 1
 
         timer_active = False
-        remaining_time = 86400  # Сброс времени на 3 минуты
+        remaining_time = 86400*3  # Сброс времени на 3 минуты
         await callback.message.answer("Прошло 3 суток, вам снова можно публиковать афишу!")
 
 
