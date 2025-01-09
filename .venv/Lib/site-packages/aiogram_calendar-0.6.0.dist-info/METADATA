@@ -1,0 +1,149 @@
+Metadata-Version: 2.1
+Name: aiogram_calendar
+Version: 0.6.0
+Summary: Simple Inline Calendar & Date Selection tool for Aiogram Telegram bots
+Author-email: Andrii Nikolabai <nikolabay.as@gmail.com>
+License: MIT License
+        Copyright (c) 2018 noXplode
+        Permission is hereby granted, free of charge, to any person obtaining a copy
+        of this software and associated documentation files (the "Software"), to deal
+        in the Software without restriction, including without limitation the rights
+        to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+        copies of the Software, and to permit persons to whom the Software is
+        furnished to do so, subject to the following conditions:
+        The above copyright notice and this permission notice shall be included in all
+        copies or substantial portions of the Software.
+        THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+        IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+        FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+        AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+        LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+        OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+        SOFTWARE.
+Project-URL: Homepage, https://github.com/noXplode/aiogram_calendar
+Keywords: Aiogram,Telegram,Bots,Calendar
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: Developers
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
+Requires-Python: >=3.9
+Description-Content-Type: text/markdown
+License-File: LICENSE.txt
+Requires-Dist: aiogram>=3.7
+Provides-Extra: dev
+Requires-Dist: pytest; extra == "dev"
+Requires-Dist: pytest-asyncio; extra == "dev"
+
+
+  
+
+# Date Selection tool for Aiogram Telegram Bots
+
+  
+
+  
+
+## Description
+
+  
+
+A simple inline calendar, date selection tool for [aiogram](https://github.com/aiogram/aiogram) telegram bots written in Python.
+
+  
+
+Offers two types of date pickers:
+
+  
+
+Navigation calendar - user can either select a date or move to the next or previous month/year by clicking a singe button.
+
+  
+
+Dialog calendar - user selects year on first stage, month on next stage, day on last stage.
+
+  
+
+  
+
+**From version 0.2 supports aiogram 3, use version 0.1.1 with aiogram 2.**
+**From version 0.6 supports aiogram 3.7, use version 0.5 with aiogram <3.7 **
+
+  
+## Main features
+- Two calendars with abilities to navigate years, months, days altogether or in dialog
+- Ability to set specified locale (language of captions) or inherit from user`s locale
+- Limiting the range of dates to select from
+- Highlighting todays date 
+  
+
+## Usage
+
+  
+
+Install package
+
+  
+
+  
+
+pip install aiogram_calendar
+
+  
+
+  
+
+A full working example on how to use aiogram-calendar is provided in `*bot_example.py*`.
+
+  
+
+  
+
+In example keyboard with buttons is created.
+
+  
+
+Each button triggers a calendar in a different way by adding it to a message with a *reply_markup*.
+
+  
+
+reply_markup=await SimpleCalendar().start_calendar()
+
+^^ will reply with a calendar created using English localization (months and days of week captions). Locale can be overridden by passing locale argument:
+
+  
+
+reply_markup=await SimpleCalendar(locale='uk_UA').start_calendar()
+
+or by getting locale from User data provided by telegram API using get_user_locale method by passing `message.from_user` to it
+
+  
+
+reply_markup=await SimpleCalendar(locale=await get_user_locale(message.from_user)).start_calendar()
+
+  
+
+Depending on what button of calendar user will press callback is precessed using the *process_selection* method.
+
+  
+
+selected, date = await SimpleCalendar(locale=await get_user_locale(callback_query.from_user)).process_selection(callback_query, callback_data)
+
+Here locale is specified from `callback_query.from_user`
+
+  
+
+  
+
+## Gif demo:
+
+  
+
+  
+
+![aiogram_calendar](https://j.gifs.com/nRQlqW.gif)
