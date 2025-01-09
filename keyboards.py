@@ -9,10 +9,9 @@ def create_reply_keyboard():
     button1 = KeyboardButton(text='✅ Афиша в Адлере')
     button2 = KeyboardButton(text='❌ Афиша не в Адлере')
     button3 = KeyboardButton(text='👉 Правила канала')
-    button4 = KeyboardButton(text='О боте')
 
     # Создаем разметку клавиатуры
-    keyboard = ReplyKeyboardMarkup(keyboard=[[button1], [button2], [button3], [button4]], resize_keyboard=True,
+    keyboard = ReplyKeyboardMarkup(keyboard=[[button1], [button2], [button3]], resize_keyboard=True,
                                    one_time_keyboard=True)
 
     # Добавляем кнопки в два ряда
@@ -81,5 +80,7 @@ def create_new_keyboard(data):
 
 back_btn = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text="Отмена", callback_data="back")]])
 back_btn1 = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text="Назад", callback_data="back")]])
+back_btn2 = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text="Назад", callback_data="back_to_menu")]])
+
 
 yes_no_btn = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text="Да, сбросить", callback_data="clear"), InlineKeyboardButton(text="Вернуться к редактированию", callback_data="gotored")]])
